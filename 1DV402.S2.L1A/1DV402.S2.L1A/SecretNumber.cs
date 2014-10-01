@@ -20,9 +20,7 @@ namespace _1DV402.S2.L1A
 
             // Slumpar fram ett heltal mellan '1' och '100'. 
             Random random = new Random();
-            int randomNumber = random.Next(1, 101);
-
-            _number = randomNumber; 
+            _number = random.Next(1, 101);
         }
 
         public bool MakeGuess(int number)
