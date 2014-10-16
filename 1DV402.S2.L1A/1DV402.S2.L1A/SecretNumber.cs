@@ -8,11 +8,16 @@ namespace _1DV402.S2.L1A
 {
     class SecretNumber
     {
-        // Definierar och initierar variabler.
         public const int MaxNumberOfGuesses = 7;
+
+        // Definierar fält.
         private int _count;
         private int _number;
 
+        public SecretNumber()
+        {
+            Initialize();
+        }
 
         public void Initialize()
         {
@@ -25,6 +30,11 @@ namespace _1DV402.S2.L1A
 
         public bool MakeGuess(int number)
         {
+            if (_count >= MaxNumberOfGuesses)
+            {
+                throw new ApplicationException();
+            }
+                
             // Matar användaren in ett värde utanför intervallet ges denne ny chans.
             if (number < 1 || number > 100)
             {
@@ -32,46 +42,31 @@ namespace _1DV402.S2.L1A
             }
 
             // Skriver ut passande meddelanden till användaren beroende på vad denne gissat.
-            if (_count < MaxNumberOfGuesses)
-            {   
-                _count++; // Ser till att värdet ökas i takt med användarens antal gissningar.
+            _count++; // Ser till att värdet ökas i takt med användarens antal gissningar.
 
-                if (number < _number)
-                {
-                    Console.WriteLine("{0} är för lågt. Du har {1} gissningar kvar.", number, (7 - _count));
-                }
+            if (number == _number)
+            {
+                Console.WriteLine("RÄTT GISSAT. Du klarade det på {0} försök.", _count);
 
-                if (number > _number)
-                {
-                    Console.WriteLine("{0} är för högt. Du har {1} gissningar kvar.", number, (7 - _count));
-                }
-
-                if (number == _number)
-                {
-                    Console.WriteLine("RÄTT GISSAT. Du klarade det på {0} försök.", _count);
-
-                    return true;
-                }
-
-                if (_count == MaxNumberOfGuesses)
-                {
-                    Console.WriteLine("Det hemliga talet är {0}.", _number);
-                }
+                return true;
             }
 
-            // Ser till att nytt värde slumpas fram efter de maximalt sju gissningar som givits användaren. 
+            if (number < _number)
+            {
+                Console.WriteLine("{0} är för lågt. Du har {1} gissningar kvar.", number, (7 - _count));
+            }
             else
             {
-                throw new ApplicationException();
+                Console.WriteLine("{0} är för högt. Du har {1} gissningar kvar.", number, (7 - _count));
+            }
+
+
+            if (_count == MaxNumberOfGuesses)
+            {
+                Console.WriteLine("Det hemliga talet är {0}.", _number);
             }
 
             return false;
         }
-
-        public SecretNumber()
-        {
-            Initialize();
-        }
-
     }
 }
